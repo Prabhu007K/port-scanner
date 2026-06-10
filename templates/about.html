@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Port Scanner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+</head>
+<body class="about-page">
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="about-hero">
+    <p class="terminal-prompt">root@scanner:~$ man port-scan</p>
+    <h1 class="glow-title">Port Scanning & Service Detection</h1>
+    <p class="hero-lead">Learn how reconnaissance works — then run a safe, multi-threaded scanner in your browser.</p>
+  </header>
+
+  <main class="about-main">
+    <section class="about-block">
+      <span class="section-num">01</span>
+      <h2>What is this tool?</h2>
+      <p>An <strong>educational port scanner</strong> that discovers open TCP ports on a target host, estimates services, grabs banners, and maps risk — with live progress and exportable results. Built for learning network recon, not for unauthorized scanning.</p>
+      <div class="tag-row">
+        <span class="tag">TCP connect scan</span>
+        <span class="tag">Banner grab</span>
+        <span class="tag">UDP DNS demo</span>
+        <span class="tag">Ethics-first</span>
+      </div>
+    </section>
+
+    <section class="about-block">
+      <span class="section-num">02</span>
+      <h2>How port scanning works</h2>
+      <p>A port is a numbered door on a host. Scanning probes each port to see if something accepts connections. Open ports reveal running services (web, SSH, databases) — useful for admins and attackers alike.</p>
+      <div class="compare-grid">
+        <article class="code-card scan-card-info">
+          <h3>Connect scan (-sT)</h3>
+          <pre>socket.connect(host, port)
+→ full TCP handshake
+→ logged by target firewall</pre>
+          <p><strong>Implemented in this lab.</strong> Reliable, works without admin rights. Slower but honest for demos.</p>
+        </article>
+        <article class="code-card scan-card-warn">
+          <h3>SYN scan (-sS) — stealth</h3>
+          <pre>Send SYN → receive SYN-ACK
+→ send RST (never complete)
+→ requires raw sockets / root</pre>
+          <p><strong>Explained only.</strong> Half-open scan is stealthier; this app falls back to connect scan if you select SYN.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-block">
+      <span class="section-num">03</span>
+      <h2>What the scanner detects</h2>
+      <div class="type-cards">
+        <article class="type-card"><span class="type-icon">🔌</span><h3>Open ports</h3><p>TCP connect with configurable timeout and threaded workers.</p></article>
+        <article class="type-card"><span class="type-icon">🏷</span><h3>Service names</h3><p>Port tables plus banner parsing (SSH, HTTP Server header, FTP).</p></article>
+        <article class="type-card"><span class="type-icon">📡</span><h3>Banners</h3><p>First bytes from services — version hints for defenders.</p></article>
+        <article class="type-card"><span class="type-icon">⚡</span><h3>UDP / DNS</h3><p>Optional UDP probe on port 53 — shows TCP-only scans miss things.</p></article>
+      </div>
+    </section>
+
+    <section class="about-block">
+      <span class="section-num">04</span>
+      <h2>Legal & ethical use</h2>
+      <ol class="prevent-list">
+        <li><strong>Only scan systems you own</strong><span>Or have explicit written permission to test.</span></li>
+        <li><strong>Use safe demo targets</strong><span><code>127.0.0.1</code> (localhost) or <code>scanme.nmap.org</code> (Nmap's test host).</span></li>
+        <li><strong>Confirm consent checkbox</strong><span>Required before scanning other targets in this app.</span></li>
+        <li><strong>Respect rate limits</strong><span>Max 1024 ports per scan; adjustable timeout to reduce load.</span></li>
+      </ol>
+    </section>
+
+    <section class="about-block">
+      <span class="section-num">05</span>
+      <h2>Architecture</h2>
+      <pre class="arch-diagram">Browser ──POST /api/scan──▶ Flask (NDJSON stream)
+                              │
+                    ThreadPoolExecutor (50 workers)
+                              │
+                    socket.connect_ex() per port
+                              │
+                    Target host (IP / domain)
+                              │
+                    Progress events → live UI + heatmap</pre>
+    </section>
+
+    <section class="about-block">
+      <span class="section-num">06</span>
+      <h2>Deploy note</h2>
+      <p>This is a <strong>Python Flask app</strong> with server-side socket scanning. It cannot run on <strong>Netlify</strong> or <strong>GitHub Pages</strong> (static hosts). Deploy free on <strong>Render</strong> or <strong>Railway</strong> — see README.md.</p>
+    </section>
+
+    <section class="about-cta">
+      <p class="cta-note">Ready to scan?</p>
+      <a href="{{ url_for('scan_page') }}" class="btn-continue">Continue to scanner →</a>
+      <p class="disclaimer">Unauthorized port scanning may be illegal in your jurisdiction. Educational use only.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Port Scanner & Service Detector · <a href="{{ url_for('scan_page') }}" class="footer-link">Scanner</a></p>
+  </footer>
+</body>
+</html>

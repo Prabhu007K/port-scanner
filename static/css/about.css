@@ -1,0 +1,84 @@
+.about-page {
+  background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,.08), transparent 55%), var(--bg);
+}
+.about-hero {
+  text-align: center; padding: 2.5rem 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-lead { color: var(--muted); font-size: .92rem; max-width: 520px; margin: .6rem auto 0; }
+
+.about-main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+.about-block {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.4rem 1.25rem; margin-bottom: 1.15rem;
+}
+.about-block h2 { font-size: 1rem; color: #79c0ff; margin-bottom: .6rem; font-family: 'JetBrains Mono', monospace; }
+.about-block > p { font-size: .86rem; color: var(--muted); line-height: 1.65; }
+.about-block strong { color: var(--text); }
+.section-num {
+  position: absolute; top: 1rem; right: 1rem;
+  font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+  color: rgba(88,166,255,.35);
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .85rem; }
+.tag {
+  font-size: .66rem; font-family: 'JetBrains Mono', monospace;
+  padding: .22rem .5rem; border-radius: 999px;
+  border: 1px solid rgba(88,166,255,.35); color: #79c0ff;
+  background: rgba(88,166,255,.06);
+}
+
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; margin-top: 1rem; }
+@media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+.code-card { border-radius: 10px; padding: 1rem; border: 1px solid var(--border); }
+.scan-card-info { background: rgba(88,166,255,.06); border-color: rgba(88,166,255,.25); }
+.scan-card-warn { background: rgba(210,153,34,.06); border-color: rgba(210,153,34,.25); }
+.code-card h3 { font-size: .78rem; margin-bottom: .5rem; }
+.code-card pre {
+  font-family: 'JetBrains Mono', monospace; font-size: .67rem;
+  background: #010409; border-radius: 8px; padding: .7rem; margin-bottom: .5rem; line-height: 1.6;
+  color: var(--muted);
+}
+.code-card p { font-size: .76rem; color: var(--muted); }
+
+.type-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: .65rem; margin-top: .85rem; }
+@media (max-width: 540px) { .type-cards { grid-template-columns: 1fr; } }
+.type-card {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: .9rem;
+}
+.type-icon { font-size: 1.15rem; display: block; margin-bottom: .3rem; }
+.type-card h3 { font-size: .82rem; margin-bottom: .25rem; }
+.type-card p { font-size: .76rem; color: var(--muted); }
+
+.prevent-list { list-style: none; margin-top: .85rem; display: flex; flex-direction: column; gap: .65rem; counter-reset: prev; }
+.prevent-list li { padding-left: 2rem; position: relative; font-size: .84rem; counter-increment: prev; }
+.prevent-list li::before {
+  content: counter(prev);
+  position: absolute; left: 0; top: .05rem;
+  width: 1.4rem; height: 1.4rem; border-radius: 50%;
+  background: rgba(88,166,255,.12); border: 1px solid rgba(88,166,255,.35);
+  color: #79c0ff; font-size: .68rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+.prevent-list strong { display: block; color: var(--text); margin-bottom: .1rem; }
+.prevent-list span { color: var(--muted); font-size: .78rem; }
+.prevent-list code { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #ffa657; }
+
+.arch-diagram {
+  font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+  color: var(--muted); line-height: 1.75; white-space: pre-wrap;
+  background: var(--bg); border-radius: 8px; padding: .85rem; margin-top: .5rem;
+}
+
+.about-cta { text-align: center; padding: 1.5rem 1rem; }
+.cta-note { font-size: .88rem; color: var(--muted); margin-bottom: .85rem; }
+.btn-continue {
+  display: inline-block; padding: .8rem 1.75rem;
+  background: linear-gradient(135deg, #1f6feb, #388bfd);
+  color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem;
+  border-radius: 10px; font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 0 20px rgba(56,139,253,.3);
+}
+.btn-continue:hover { transform: translateY(-1px); box-shadow: 0 0 28px rgba(56,139,253,.4); }
+.disclaimer { font-size: .7rem; color: var(--muted); max-width: 400px; margin: 1rem auto 0; }

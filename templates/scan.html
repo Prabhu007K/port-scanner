@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Port Scanner & Service Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="header">
+    <p class="terminal-prompt">root@scanner:~$ nmap -sT -sV target</p>
+    <h1 class="glow-title">Port Scanner</h1>
+    <p class="header-sub">Multi-threaded TCP recon · banner grab · live progress · educational use only</p>
+  </header>
+
+  <main class="container">
+    <form id="scan-form" class="scan-card">
+      <div class="form-row">
+        <label class="grow">Target (IP or domain)
+          <input type="text" id="target" placeholder="127.0.0.1" value="127.0.0.1" required>
+        </label>
+        <div class="preset-btns">
+          <button type="button" class="btn-preset" data-target="127.0.0.1">Localhost</button>
+          <button type="button" class="btn-preset" data-target="scanme.nmap.org">scanme.nmap.org</button>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <label>Scan profile / ports
+          <select id="ports">
+            <option value="common">Common ports</option>
+            <option value="quick">Quick (top 12)</option>
+            <option value="web">Web services</option>
+            <option value="database">Databases</option>
+            <option value="remote">Remote access</option>
+            <option value="1-100">Range 1–100</option>
+            <option value="1-1024">Range 1–1024</option>
+            <option value="custom">Custom (below)</option>
+          </select>
+        </label>
+        <label id="custom-ports-wrap" class="hidden">Custom ports
+          <input type="text" id="custom-ports" placeholder="22,80,443 or 8000-8100">
+        </label>
+      </div>
+
+      <div class="form-grid-3">
+        <label>Scan type
+          <select id="scan-type">
+            <option value="connect">Connect (-sT) — implemented</option>
+            <option value="syn">SYN (-sS) — demo fallback</option>
+          </select>
+        </label>
+        <label>Timeout (seconds)
+          <select id="timeout">
+            <option value="0.5">0.5 s (fast)</option>
+            <option value="1" selected>1 s</option>
+            <option value="2">2 s</option>
+            <option value="3">3 s (slow hosts)</option>
+          </select>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="ping-first"> Ping host first
+        </label>
+      </div>
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="include-udp"> Include UDP/53 DNS probe
+      </label>
+
+      <label class="checkbox-label consent-label">
+        <input type="checkbox" id="consent"> I have permission to scan this target (not required for localhost / scanme.nmap.org)
+      </label>
+
+      <button type="submit" id="scan-btn">Start scan</button>
+      <p class="warn">Only scan systems you own or have explicit permission to test.</p>
+    </form>
+
+    <section id="progress-section" class="progress-section hidden">
+      <div class="progress-head">
+        <span id="progress-text">Scanning…</span>
+        <span id="elapsed-text" class="mono">0.0s</span>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+      <p id="progress-detail" class="progress-detail mono"></p>
+    </section>
+
+    <section id="results" hidden>
+      <div class="summary" id="summary"></div>
+      <div class="result-actions">
+        <button type="button" class="btn-ghost" id="export-json">Export JSON</button>
+        <button type="button" class="btn-ghost" id="export-csv">Export CSV</button>
+        <button type="button" class="btn-ghost" id="copy-table">Copy table</button>
+      </div>
+
+      <div class="heatmap-wrap hidden" id="heatmap-wrap">
+        <h3 class="section-label">Port map (1–1024)</h3>
+        <div class="heatmap" id="heatmap"></div>
+        <div class="heatmap-legend">
+          <span><i class="dot closed"></i> closed / not scanned</span>
+          <span><i class="dot open"></i> open</span>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Port</th><th>Proto</th><th>State</th><th>Service</th><th>Risk</th><th>RTT</th><th>Banner</th></tr>
+          </thead>
+          <tbody id="result-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <h3 class="section-label">Recent scans (this session)</h3>
+      <ul id="history-list" class="history-list">
+        <li class="history-empty">No scans yet</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Educational recon tool · Not for unauthorized use · <a href="{{ url_for('about') }}" class="footer-link">About</a></p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
